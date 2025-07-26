@@ -19,7 +19,7 @@
 
 int	main()
 {
-	int fd = open("tests/my_test_file.txt",O_RDONLY);
+	int fd = open("tests/single_no_nl_exact.txt",O_RDONLY);
 	char *line;
 
 	while ((line = get_next_line(fd)) != NULL)
