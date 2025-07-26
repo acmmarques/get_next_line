@@ -1,0 +1,6 @@
+This is a simple file
+with some lines of
+
+test
+
+yes?
