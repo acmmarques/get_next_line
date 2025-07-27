@@ -13,18 +13,20 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <stdlib.h>
 # include <unistd.h>
-//TODO: É preciso tirar o stdio daqui antes de entregar e o string tb
-# include <stdio.h>
-# include <string.h>
+# include <stdlib.h>
+# include <stddef.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
-
-# define BUFFER_SIZE 42
+void	write_line(char **stash, char **line);
+void	fill_stash(char **stash, char **buffer, int fd);
 
 #endif
