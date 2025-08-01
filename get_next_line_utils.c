@@ -6,78 +6,82 @@
 /*   By: andcardo <andcardo@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 10:20:18 by andcardo          #+#    #+#             */
-/*   Updated: 2025/07/26 10:59:52 by andcardo         ###   ########.fr       */
+/*   Updated: 2025/07/31 09:48:55 by andcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	len_s1;
-	size_t	len_s2;
-	size_t	total_size;
-	char	*concat_str;
+//TODO: tirar esta library
+#include <stdio.h>
 
-	len_s1 = 0;
-	if (s1)
-		len_s1 = ft_strlen(s1);
-	len_s2 = 0;
-	if (s2) 
-		len_s2 = ft_strlen(s2);
-	total_size = len_s1 + len_s2;
-	concat_str = (char *)malloc(sizeof(char) * (total_size + 1));
-	if (!concat_str)
-		return (NULL);
-	if (s1)
-		ft_memcpy(concat_str, s1, len_s1);
-	if (s2)
-		ft_memcpy(concat_str + len_s1, s2, len_s2);
-	concat_str[total_size] = '\0';
-	return (concat_str);
-}
-
-size_t	ft_strlen(const char *s)
+size_t	strlen_nl(char *s)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
-	while (s[i])
+	while(s[i])
 		i++;
 	return (i);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+char	*str_join_n_free(char *line, char *stash)
 {
-	unsigned char			*dest_ptr;
-	const unsigned char		*src_ptr;
+	char	*concat_str;
+	size_t	total_size;
+	ssize_t	i;
+	ssize_t	j;
 
-	if (!dest && !src)
-		return (dest);
-	dest_ptr = dest;
-	src_ptr = src;
-	while (n--)
+	if (!line)
 	{
-		*dest_ptr = *src_ptr;
-		dest_ptr++;
-		src_ptr++;
+		line = malloc(1);
+		if (!line)
+			return (NULL);
+		line[0] = '\0';
 	}
-	return (dest);
+	total_size = strlen_nl(line) + strlen_nl(stash);
+	concat_str = malloc((total_size + 1) * sizeof(char));
+	if (concat_str)
+	{
+		i = -1;
+		j = -1;
+		while (line[++i])
+			concat_str[i] = line[i];
+		while (stash[++j])
+			concat_str[i + j] = stash[j];
+		concat_str[i + j] = '\0';
+	}
+	free(line);
+	return (concat_str);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *str, char c)
 {
-	int	i;
-
-	i = 0;
-	c = (char)c;
-	while (s[i] != '\0')
+	while (*str)
 	{
-		if (s[i] == c)
-			return ((char *)&s[i]);
-		i++;
+		if (*str == c)
+			return str;
+		str++;
 	}
-	if (s[i] == '\0' && c == '\0')
-		return ((char *)&(s[i]));
-	return ((char *)0);
+	if (*str == '\0' && c == '\0')
+		return str;
+	return (NULL);
+}
+
+void	build_line(char **line, char **stash)
+{
+	size_t	i;
+	char	*nl_char;
+	char	*new_stash;
+
+	nl_char = ft_strchr(*stash, '\n');
+	if (nl_char)
+		nl_char += 1;
+	else
+		nl_char = ft_strchr(*stash, '\0');
+	new_stash = str_join_n_free(NULL, nl_char);
+	nl_char[0] = '\0';
+	*line = str_join_n_free(NULL, *stash);
+	free(*stash);
+	*stash = new_stash;
 }

@@ -22,11 +22,10 @@
 # endif
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	write_line(char **stash, char **line);
-void	fill_stash(char **stash, char **buffer, int fd);
+size_t	strlen_nl(char *s);
+char	*str_join_n_free(char *s1, char *s2);
+char	*ft_strchr(char *str, char c);
+void	clean_stash(char *stash);
+void	build_line(char **line, char **stash);
 
 #endif

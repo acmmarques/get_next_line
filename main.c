@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: andcardo <andcardo@student.42lisboa.com>   +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 16:15:45 by andcardo          #+#    #+#             */
-/*   Updated: 2025/07/26 16:18:14 by andcardo         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -17,11 +5,38 @@
 #include <string.h>
 #include "get_next_line.h" 
 
-int	main()
+int	main(int argc, char **argv)
 {
-	int fd = open("tests/single_no_nl_exact.txt",O_RDONLY);
-	char *line;
+	int	fd;
 
-	while ((line = get_next_line(fd)) != NULL)
-		puts(line);
+	fd = open("tests/multi_nl.txt", O_RDONLY);
+
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+
+	argc += 0;
+	argv[1] = "hello";
+
+	/*
+	 ==Proof that char *buffer[BUFFER_SIZE] can be used.==
+
+	 The norm forbids the usage of Variable Length
+	 Arrays - VLAs, for short. But char *buffer is
+	 actually a fixed-sized array.
+
+	 VLA are arrays whose length is defined at run time.
+	 Fixed-sized arrays have their length defined at
+	 compile time. To check that char *buffer[BUFFER_SIZE]
+	 is a fixed-sized array we have to take into account 
+	 that BUFFER_SIZE is a macro. A macro is a preprocessor
+	 directive, i.e., it is going to be taken care of before
+	 compilation. Which means that by compile time,
+	 BUFFER_SIZE is already defined.
+
+	 We can can prove that by uncomenting the lines below
+	 and compiling this main with the -E flag.
+	char *fixed_array[BUFFER_SIZE];
+	char *vla(argc);
+	*/
 }
