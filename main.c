@@ -8,12 +8,15 @@
 int	main(int argc, char **argv)
 {
 	int	fd;
+	char	*line;
 
-	fd = open("tests/multi_nl.txt", O_RDONLY);
-
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	fd = open("tests/long_file.txt", O_RDONLY);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
 
 	argc += 0;
 	argv[1] = "hello";

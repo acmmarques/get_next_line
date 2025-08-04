@@ -6,16 +6,13 @@
 /*   By: andcardo <andcardo@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 10:20:18 by andcardo          #+#    #+#             */
-/*   Updated: 2025/07/31 09:48:55 by andcardo         ###   ########.fr       */
+/*   Updated: 2025/08/04 09:40:03 by andcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//TODO: tirar esta library
-#include <stdio.h>
-
-size_t	strlen_nl(char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t i;
 
@@ -25,34 +22,34 @@ size_t	strlen_nl(char *s)
 	return (i);
 }
 
-char	*str_join_n_free(char *line, char *stash)
+char *strjoin_n_free_gnl(char *s1, char *s2)
 {
-	char	*concat_str;
-	size_t	total_size;
-	ssize_t	i;
-	ssize_t	j;
+    char    *concat_str;
+    size_t  s1_len;
+    size_t  s2_copylen;
+    size_t  i;
+    size_t  j;
 
-	if (!line)
-	{
-		line = malloc(1);
-		if (!line)
-			return (NULL);
-		line[0] = '\0';
-	}
-	total_size = strlen_nl(line) + strlen_nl(stash);
-	concat_str = malloc((total_size + 1) * sizeof(char));
-	if (concat_str)
-	{
-		i = -1;
-		j = -1;
-		while (line[++i])
-			concat_str[i] = line[i];
-		while (stash[++j])
-			concat_str[i + j] = stash[j];
-		concat_str[i + j] = '\0';
-	}
-	free(line);
-	return (concat_str);
+    if (!s1 || !s2)
+        return (NULL);
+    s2_copylen = 0;
+    while (s2[s2_copylen] && s2[s2_copylen] != '\n')
+        s2_copylen++;
+    if (s2[s2_copylen] == '\n')
+        s2_copylen++;
+	s1_len = ft_strlen(s1);
+    concat_str = malloc(s1_len + s2_copylen + 1);
+    if (!concat_str)
+        return (free(s1), NULL);
+    i = -1;
+    while (++i < s1_len)
+        concat_str[i] = s1[i];
+    j = -1;
+    while (++j < s2_copylen)
+        concat_str[i + j] = s2[j];
+    concat_str[i + j] = '\0';
+    free(s1);
+    return (concat_str);
 }
 
 char	*ft_strchr(char *str, char c)
@@ -68,20 +65,47 @@ char	*ft_strchr(char *str, char c)
 	return (NULL);
 }
 
-void	build_line(char **line, char **stash)
+char	*ft_strdup(char *s1)
 {
+	char	*cpy_str;
 	size_t	i;
-	char	*nl_char;
-	char	*new_stash;
 
-	nl_char = ft_strchr(*stash, '\n');
-	if (nl_char)
-		nl_char += 1;
-	else
-		nl_char = ft_strchr(*stash, '\0');
-	new_stash = str_join_n_free(NULL, nl_char);
-	nl_char[0] = '\0';
-	*line = str_join_n_free(NULL, *stash);
-	free(*stash);
-	*stash = new_stash;
+	if (!s1)
+		return (NULL);
+	cpy_str = (char*)malloc(sizeof(*s1) * (ft_strlen(s1) + 1));
+	if (!cpy_str)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		cpy_str[i] = s1[i];
+		i++;
+	}
+	cpy_str[i] = '\0';
+	return (cpy_str);
+}
+
+void clean_buffer(char *buffer)
+{
+    char    *nl_ptr;
+    size_t  i;
+
+    nl_ptr = ft_strchr(buffer, '\n');
+    if (!nl_ptr)
+	{
+	buffer[0] = '\0';
+        return;
+	}
+    if (!*(nl_ptr + 1))
+	{
+	buffer[0] = '\0';
+        return;
+	}
+    i = 0;
+    while ((nl_ptr)[i + 1])
+    {
+        buffer[i] = (nl_ptr)[i + 1];
+        i++;
+    }
+    buffer[i] = '\0';
 }
