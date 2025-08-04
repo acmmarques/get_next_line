@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 		printf("Provide a file, please.\n");
 		return 0;
 	}
-	printf("Choose:\n0\tstdin;\n1\tstdoout;\n2\tstderr;\n3\tyour own file;\n");
+	printf("Choose:\n0\tstdin;\n1\tstdoout;\n2\tstderr;\n3\tyour own file;\n4\tjust one line from your own file;\n");
 	scanf("%d", &fd);
 	if (fd == 0)
 	{
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 		test_file(fd);
 		return 0;
 	}
-	else if (fd < 1 || fd > 3)
+	else if (fd < 1 || fd > 4)
 	{
 		printf("Error! Insert a valid number, please.\n");
 		return 0;
@@ -56,6 +56,20 @@ int	main(int argc, char **argv)
 		}
 		separator("TESTING YOUR OWN FILE", 'g');
 		test_file(fd);
+	}
+	else if (fd == 4)
+	{
+		char	filename[256];
+		printf("Enter the filename:\n");
+		scanf("%s", filename);
+		fd = open(filename, O_RDONLY);
+		if (fd < 0)
+		{
+			printf("Error! File doesn't exist. Check name.\n");
+			return 0;
+		}
+		separator("TESTING JUST ONE LINE FROM YOUR OWN FILE", 'g');
+		test_one_line(fd);
 	}
 
 
