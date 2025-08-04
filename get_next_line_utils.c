@@ -87,25 +87,25 @@ char	*ft_strdup(char *s1)
 
 void clean_buffer(char *buffer)
 {
-    char    *nl_ptr;
-    size_t  i;
+	char    *nl_ptr;
+	size_t  i;
 
-    nl_ptr = ft_strchr(buffer, '\n');
-    if (!nl_ptr)
+	nl_ptr = ft_strchr(buffer, '\n');
+	if (!nl_ptr)
 	{
-	buffer[0] = '\0';
-        return;
+		buffer[0] = '\0';
+		return;
 	}
-    if (!*(nl_ptr + 1))
+	if (!*(nl_ptr + 1))
 	{
-	buffer[0] = '\0';
-        return;
+		buffer[0] = '\0';
+		return;
 	}
-    i = 0;
-    while ((nl_ptr)[i + 1])
-    {
-        buffer[i] = (nl_ptr)[i + 1];
-        i++;
-    }
-    buffer[i] = '\0';
+	i = 0;
+	while ((nl_ptr)[i + 1])
+	{
+		buffer[i] = (nl_ptr)[i + 1];
+		i++;
+	}
+	buffer[i] = '\0';
 }
