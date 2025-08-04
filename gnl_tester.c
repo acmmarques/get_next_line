@@ -12,8 +12,6 @@ void	test_one_line(int fd);
 int	main(int argc, char **argv)
 {
 	int	fd;
-	char	*line;
-	char	*filename;
 
 	if (argc == 0 || argc > 2)
 	{
@@ -47,6 +45,7 @@ int	main(int argc, char **argv)
 	}
 	else if (fd == 3)
 	{
+		char	filename[256];
 		printf("Enter the filename:\n");
 		scanf("%s", filename);
 		fd = open(filename, O_RDONLY);

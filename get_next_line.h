@@ -22,7 +22,7 @@
 # endif
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(char *s);
+size_t	strlen_gnl(char *s);
 char	*strjoin_n_free_gnl(char *s1, char *s2);
 char	*ft_strchr(char *str, char c);
 char	*ft_strdup(char *s1);
